@@ -1,6 +1,6 @@
 import * as me from 'melonjs'
 import { Player } from '../entities/player'
-import { Terminator } from '../entities/terminator'
+import { Brother } from '../entities/brothers'
 import UIContainer from '../entities/HUD'
 
 export class PlayScreen extends me.Stage {
@@ -8,7 +8,7 @@ export class PlayScreen extends me.Stage {
    *  action to perform on state change
    */
   onResetEvent() {
-    me.level.load('finald')
+    me.level.load('final')
 
     // add our HUD to the game world
     if (typeof this.HUD === 'undefined') {
@@ -16,13 +16,12 @@ export class PlayScreen extends me.Stage {
     }
     me.game.world.addChild(this.HUD)
 
-    me.game.world.addChild(new me.ColorLayer('background', '#000033'), 0)
+    me.game.world.addChild(new Player(0, 280), 1)
 
-    me.game.world.addChild(new Player(130, 100), 1)
+    me.game.world.addChild(new Brother(100, 280), 1)
 
-    me.game.world.addChild(new Terminator(100, 280), 1)
+    me.game.world.addChild(new Brother(200, 280), 1)
 
-    me.game.world.addChild(new Terminator(300, 280), 1)
-    // me.game.world.addChild(new Terminator(310, 192), 1);
+    me.game.world.addChild(new Brother(300, 280), 1)
   }
 }

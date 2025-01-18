@@ -6,6 +6,7 @@ import { PlayScreen } from './screens/play.js'
 import { Player } from './entities/player.js'
 import { Terminator } from './entities/terminator.js'
 import { Poop } from './entities/poop.js'
+import { HomeScreen } from './screens/home.js'
 
 me.device.onReady(() => {
   me.video.init(384, 216, {
@@ -16,7 +17,7 @@ me.device.onReady(() => {
   me.loader.setOptions({ crossOrigin: 'anonymous' })
   me.audio.init('mp3,ogg')
   me.loader.preload(ressources, () => {
-    me.state.set(me.state.PLAY, new PlayScreen())
+    me.state.set(me.state.PLAY, new HomeScreen())
 
     // register the entities
     me.pool.register('mcsquare', Player)

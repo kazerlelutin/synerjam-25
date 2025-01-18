@@ -25,7 +25,7 @@ export class Player extends me.Entity {
 
     this.multipleJump = 1
 
-    me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.1)
+    // me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.1)
 
     // enable keyboard
     me.input.bindKey(me.input.KEY.LEFT, 'left')
