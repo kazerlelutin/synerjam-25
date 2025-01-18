@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="48" height="150" tilewidth="8" tileheight="8" infinite="0" nextlayerid="7" nextobjectid="15">
+ <editorsettings>
+  <chunksize width="8" height="8"/>
+ </editorsettings>
+ <tileset firstgid="1" source="dreamTileset.tsx"/>
+ <tileset firstgid="18" source=":/automap-tiles.tsx"/>
+ <layer id="5" name="tiles" width="48" height="150">
+  <data encoding="base64" compression="zlib">
+   eJzt1EsKwkAURUFRJ36y/+2asRARAla6PQfuvHjQvZzG7b5u0Ygd5bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt+W35bflt83iv2zs6mhfNcv9Ry2/Lb/t3X8+bf+lR/xPZ7v/aOW37fF/euu/euf/fP8jNIP/ue426B7rXjtqD2I=
+  </data>
+ </layer>
+ <objectgroup id="4" name="Collision">
+  <object id="8" x="0" y="0" width="8" height="1200"/>
+  <object id="9" x="376" y="0" width="8" height="1200"/>
+  <object id="10" x="0.666667" y="1192" width="384" height="8"/>
+ </objectgroup>
+ <objectgroup id="6" name="Slope">
+  <object id="12" x="23.9961" y="1120">
+   <polyline points="0,0 71.9414,0.0585938"/>
+  </object>
+  <object id="13" x="112.006" y="1159.99">
+   <polyline points="0,0 63.9632,0.0368056"/>
+  </object>
+  <object id="14" x="8.01563" y="1064.03">
+   <polyline points="0,0 55.9375,-0.015625"/>
+  </object>
+ </objectgroup>
+</map>
