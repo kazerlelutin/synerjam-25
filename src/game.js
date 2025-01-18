@@ -1,7 +1,7 @@
 export const game = {
   dialog: "",
   texture: null,
-  isCinematic: false,
+  isKinematic: true,
   playerMove: false,
   level: 1
 }

@@ -8,16 +8,13 @@ export class HomeScreen extends me.Stage {
    *  action to perform on state change
    */
   onResetEvent() {
-    me.level.load('home')
-
-
-  
+    me.level.load('home')  
     me.game.world.addChild(new Player(130, 192 - 32), 1)
 
     const family =   [
 
       {
-        x: 100,
+        x: 300,
         y: 192 - 42,
         opts: {
           userName: 'Mother',
@@ -26,7 +23,7 @@ export class HomeScreen extends me.Stage {
 
       },
       {
-        x: 150,
+        x: 280,
         y: 192 - 32,
         opts: {
           userName: 'Jimmy',
@@ -43,7 +40,7 @@ export class HomeScreen extends me.Stage {
 
       },
       {
-        x: 300,
+        x: 350,
         y: 192 - 32,
         opts: {
           userName: 'Kevin',
@@ -55,9 +52,7 @@ export class HomeScreen extends me.Stage {
     ]
 
     family.forEach(pnj => {
-
       me.game.world.addChild(new Family(pnj.x, pnj.y, pnj.opts), 1)
-
     });
 
 

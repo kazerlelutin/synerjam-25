@@ -1,6 +1,7 @@
 import * as me from 'melonjs';
 import { game } from '../game';
 import UIContainer from './HUD';
+import { Dream } from '../screens/dream';
 
 const SIZES = {
   mother: { width: 32, height: 48 },
@@ -8,10 +9,10 @@ const SIZES = {
 };
 
 const DIAL = {
-  Mother: "Un essai de dialogue vraiment beaucoup plus long\n pour voir et si c'est pas trop long",
-  Jimmy: "Je suis Jimmy",
-  Dylan: "Je suis Dylan",
-  Kevin: "Je suis Kevin",
+  Mother: "Coucou Patate! Tu peux te deplacer avec les\nfleches et utiliser Ctrl pour interagir !",
+  Jimmy: 'Jimmy: "tu ne sais meme pas sauter..."',
+  Dylan: 'Dylan: "degages Patate!!\ntu ne sais pas rebondir..." ',
+  Kevin: "Kevin",
 };
 
 export class Family extends me.Entity {
@@ -50,18 +51,21 @@ export class Family extends me.Entity {
     this.anchorPoint.set(0, 0);
   }
 
-  /**
-   * Affiche le HUD (texte)
-   */
   showDialog() {
-    if (this.hud) return; // Ne pas recréer si déjà visible
-    this.hud = new UIContainer(DIAL[this.userName], this.userName);
-    me.game.world.addChild(this.hud);
+    if (this.hud) {
+      this.hideDialog();
+    }  
+    else if(this.userName === "Kevin") {
+
+
+    }
+    else {
+      this.hud = new UIContainer(DIAL[this.userName], this.userName);
+      me.game.world.addChild(this.hud);
+    }
   }
 
-  /**
-   * Cache le HUD et le dialogue
-   */
+
   hideDialog() {
     if (this.dialog) {
       me.game.world.removeChild(this.dialog);
@@ -73,33 +77,39 @@ export class Family extends me.Entity {
     }
   }
 
-  /**
-   * Gère les collisions
-   */
   onCollision(response, other) {
     if (other.body.collisionType === me.collision.types.PLAYER_OBJECT) {
-      // Détecter si c'est une nouvelle collision
 
+      if (this.userName === "Mother" &&
+        game.isKinematic && !this.stopMove) {
+        this.stopMove = true;
+        this.showDialog();
 
-        // Afficher l'icône de dialogue si elle n'existe pas encore
-        if (!this.dialog) {
-          this.dialog = me.pool.pull('dialog', this.pos.x, this.pos.y - 35);
-          me.game.world.addChild(this.dialog);
-        }
+        game.isKinematic = false;
       }
 
-      // Si le joueur appuie sur la touche "interact", afficher le HUD
+      if (!this.dialog) {
+        this.dialog = me.pool.pull('dialog', this.pos.x, this.pos.y - 35);
+        me.game.world.addChild(this.dialog);
+      }
+
       if (me.input.isKeyPressed('interact')) {
         this.showDialog();
       }
-  
+    }
+
     return false;
   }
 
-  /**
-   * Mise à jour de l'état
-   */
+
   update(dt) {
+
+    if (this.userName === "Mother") {
+      // move to left 
+      if (game.isKinematic && game.level === 1) {
+        this.body.vel.x = this.stopMove === true ? 0 : -3;
+      }
+    }
 
     if (game.playerMove === true) {
       this.hideDialog();

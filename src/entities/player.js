@@ -1,9 +1,10 @@
 import * as me from 'melonjs'
 import { game } from '../game'
+import { Dream } from '../screens/dream'
 
 export class Player extends me.Entity {
 
-  
+
 
   constructor(x = 0, y = 0) {
 
@@ -40,7 +41,7 @@ export class Player extends me.Entity {
    */
   update(dt) {
 
-    if(!game.isCinematic) {
+    if (!game.isKinematic) {
 
 
       if (me.input.isKeyPressed('left')) {
@@ -62,19 +63,19 @@ export class Player extends me.Entity {
         this.body.force.x = this.body.maxVel.x
         this.renderable.flipX(false)
       }
-  
+
       if (me.input.isKeyPressed('jump')) {
         game.playerMove = true
         if (this.body.jumping || this.body.falling || game.level === 1) return
         //@ts-ignore
         this.renderable.setCurrentAnimation('jump')
-  
+
         this.body.jumping = true
-  
+
         if (this.multipleJump <= 2) {
           // easy "math" for double jump
           this.body.force.y = -this.body.maxVel.y
-  
+
           // LE SON
           me.audio.stop('jump')
           me.audio.play('jump', false)
@@ -88,25 +89,25 @@ export class Player extends me.Entity {
           this.multipleJump = 1
         }
       }
-  
+
       if (
         this.body.force.x === 0 &&
         this.body.force.y === 0 &&
         !this.isNotStand
       ) {
         if (!this.renderable.isCurrentAnimation('stand')) {
-       
+
           this.renderable.setCurrentAnimation('stand')
         }
       }
 
-      if(!me.input.isKeyPressed('left') && !me.input.isKeyPressed('right') && !me.input.isKeyPressed('jump') && !me.input.isKeyPressed('down')) {
+      if (!me.input.isKeyPressed('left') && !me.input.isKeyPressed('right') && !me.input.isKeyPressed('jump') && !me.input.isKeyPressed('down')) {
         game.playerMove = false
       }
-     
+
     }
 
-  
+
     // check if we fell into a hole
     if (!this.inViewport && this.getBounds().top > me.video.renderer.height) {
       // if yes reset the game
@@ -134,7 +135,7 @@ export class Player extends me.Entity {
     return
     me.audio.stop('hurt')
     me.audio.play('hurt', false)
-    this.renderable.setCurrentAnimation('hurt', (ctx) => {})
+    this.renderable.setCurrentAnimation('hurt', (ctx) => { })
     me.timer.setTimeout(() => {
       this.invincible = false
     }, 1000)
@@ -174,6 +175,24 @@ export class Player extends me.Entity {
           return true
         }
         break
+
+      case me.collision.types.NPC_OBJECT:
+        if (other.userName === "Kevin") {
+          me.timer.setTimeout(() => {
+            me.game.viewport.fadeIn('#000', 150, function () {
+        
+              try {
+                game.level = 2;
+                me.level.load("dream");
+                me.game.viewport.fadeOut('#000', 150);
+              } catch (e) {
+                console.error("Erreur lors du chargement du niveau :", e);
+              }
+            });
+          }, 500);
+        }
+        
+        return false
 
       case me.collision.types.ENEMY_OBJECT:
         if (!other.isMovingEnemy) {

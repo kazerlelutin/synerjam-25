@@ -32,7 +32,7 @@ class DialogItem extends me.BitmapText {
       textBaseline: 'top',
       text,
       size: .35,
-      lineHeight: 1.5,
+      lineHeight: 1.7,
       lineWidth: me.video.renderer.width - 20,
     })
 

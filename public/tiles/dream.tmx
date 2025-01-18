@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="48" height="150" tilewidth="8" tileheight="8" infinite="0" nextlayerid="5" nextobjectid="8">
+ <editorsettings>
+  <chunksize width="8" height="8"/>
+ </editorsettings>
+ <imagelayer id="3" name="bg" offsetx="2.33333" offsety="983.667">
+  <image source="home.png" width="384" height="216"/>
+ </imagelayer>
+ <objectgroup id="4" name="Collision">
+  <object id="2" x="384.021" y="982.167" width="11" height="224"/>
+  <object id="4" x="-6.19697" y="980.182" width="14.1667" height="228.333"/>
+  <object id="5" x="5" y="1172.5" width="373" height="25"/>
+ </objectgroup>
+</map>

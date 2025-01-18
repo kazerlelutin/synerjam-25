@@ -6,6 +6,7 @@ import { PlayScreen } from './screens/play.js'
 import { Player } from './entities/player.js'
 import { Family } from './entities/family.js'
 import { HomeScreen } from './screens/home.js'
+import { Dream } from './screens/dream.js'
 import { Dialog } from './entities/dialog.js'
 
 me.device.onReady(() => {
@@ -35,7 +36,9 @@ me.device.onReady(() => {
   me.loader.setOptions({ crossOrigin: 'anonymous' })
   me.audio.init('mp3,ogg')
   me.loader.preload(ressources, () => {
-    me.state.set(me.state.PLAY, new HomeScreen())
+
+    me.state.set(me.state.PLAY, new Dream())
+   // me.state.set(me.state.PLAY, new HomeScreen())
 
     // register the entities
     me.pool.register('patate', Player)
