@@ -1,6 +1,5 @@
 import * as me from 'melonjs'
 import { Player } from '../entities/player'
-import { Terminator } from '../entities/terminator'
 import UIContainer from '../entities/HUD'
 
 export class PlayScreen extends me.Stage {
