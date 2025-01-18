@@ -100,8 +100,6 @@ export class Player extends me.Entity {
         }
       }
 
-
-
       if(!me.input.isKeyPressed('left') && !me.input.isKeyPressed('right') && !me.input.isKeyPressed('jump') && !me.input.isKeyPressed('down')) {
         game.playerMove = false
       }
