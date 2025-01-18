@@ -1,6 +1,5 @@
 import * as me from 'melonjs'
 import { game } from '../game'
-import { LASER_SIZE } from './poop'
 
 export class Player extends me.Entity {
   /**

@@ -6,7 +6,6 @@ import { PlayScreen } from './screens/play.js'
 import { Player } from './entities/player.js'
 import { Brother } from './entities/brothers.js'
 import { Mother } from './entities/mother.js'
-import { Poop } from './entities/poop.js'
 import { HomeScreen } from './screens/home.js'
 import { Dialog } from './entities/dialog.js'
 
@@ -25,7 +24,6 @@ me.device.onReady(() => {
     me.pool.register('patate', Player)
     me.pool.register('brother', Brother)
     me.pool.register('mother', Mother)
-    me.pool.register('poop', Poop)
     me.pool.register('dialog', Dialog)
 
     game.hud = new me.TextureAtlas(

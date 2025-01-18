@@ -53,9 +53,6 @@ class DialogItem extends me.BitmapText {
     )
   }
 
-  /**
-   * update function
-   */
   update(dt) {
     if (!!game.dialog) {
 

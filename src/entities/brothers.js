@@ -3,8 +3,6 @@ import { game } from '../game'
 
 export class Brother extends me.Entity {
   name = 'brother'
-
-  canInteract = true
   dialog = null;
 
 
@@ -56,10 +54,17 @@ export class Brother extends me.Entity {
     return super.update(dt) || this.body.vel.x !== 0 || this.body.vel.y !== 0
   }
 
+  showDialogue() {
+    game.dialog = "Essai de dialogue des frangins !"
+  }
 
   onCollision(response, other) {
   
     if (other.body.collisionType === me.collision.types.PLAYER_OBJECT) {
+
+      if (me.input.isKeyPressed('interact')) {
+        this.showDialogue()
+      }
 
       if(!!this.dialog) return false
       this.dialog = me.pool.pull('dialog', this.pos.x,  this.pos.y - 21)
@@ -72,8 +77,4 @@ export class Brother extends me.Entity {
 
     return false
   }
-
-
-
-
 }
