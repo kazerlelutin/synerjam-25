@@ -18,11 +18,14 @@ export class PlayScreen extends me.Stage {
 
     me.game.world.addChild(new me.ColorLayer('background', '#000033'), 0)
 
+    /*
     me.game.world.addChild(new Player(130, 100), 1)
 
     me.game.world.addChild(new Terminator(100, 280), 1)
 
     me.game.world.addChild(new Terminator(300, 280), 1)
     // me.game.world.addChild(new Terminator(310, 192), 1);
+
+    */
   }
 }

@@ -9,7 +9,7 @@ export class Player extends me.Entity {
 
   constructor(x = 0, y = 0) {
     // call the super constructor
-    super(x, y, { width: 32, height: 32 })
+    super(x, y, { width: 16, height: 32 })
 
     this.projectDialCount = 0
     this.facingRight = true
@@ -152,6 +152,8 @@ export class Player extends me.Entity {
   hurt() {
     if (this.invincible) return
     this.invincible = true
+
+    return
     me.audio.stop('hurt')
     me.audio.play('hurt', false)
     this.renderable.setCurrentAnimation('hurt', (ctx) => {})

@@ -1,10 +1,10 @@
 import * as me from 'melonjs'
 import { game } from '../game'
 
-export class Brother extends me.Entity {
+export class Mother extends me.Entity {
   dying = false
   multipleJump = 1
-  name = 'brother'
+  name = 'mother'
   hurt = false
 
   /**
@@ -12,9 +12,9 @@ export class Brother extends me.Entity {
    */
   constructor(x = 0, y = 0) {
     // call the super constructor
-    super(x, y, { width: 16, height: 32 })
+    super(x, y, { width: 32, height: 48 })
 
-    this.name = 'brother'
+    this.name = 'mother'
 
     this.body.collisionType = me.collision.types.ENEMY_OBJECT
 
@@ -31,8 +31,8 @@ export class Brother extends me.Entity {
     this.isMovingEnemy = false
 
     this.texture = new me.TextureAtlas(
-      me.loader.getJSON('brother'),
-      me.loader.getImage('brother')
+      me.loader.getJSON('mother'),
+      me.loader.getImage('mother')
     )
     // create a new sprite with all animations from the paladin atlas
     this.renderable = this.texture.createAnimationFromName()

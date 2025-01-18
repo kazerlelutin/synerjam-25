@@ -1,6 +1,7 @@
 import * as me from 'melonjs'
 import { Player } from '../entities/player'
 import { Brother } from '../entities/brothers'
+import { Mother } from '../entities/mother'
 import UIContainer from '../entities/HUD'
 
 export class HomeScreen extends me.Stage {
@@ -17,7 +18,9 @@ export class HomeScreen extends me.Stage {
 
     me.game.world.addChild(this.HUD)
 
-    me.game.world.addChild(new Player(130, 100), 1)
+    me.game.world.addChild(new Player(130, 110), 1)
+
+    me.game.world.addChild(new Mother(250, 100), 1)
 
     me.game.world.addChild(new Brother(230, 100), 1)
 

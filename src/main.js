@@ -4,7 +4,8 @@ import { game } from './game.js'
 import { ressources } from './ressources.js'
 import { PlayScreen } from './screens/play.js'
 import { Player } from './entities/player.js'
-import { Terminator } from './entities/terminator.js'
+import { Brother } from './entities/brothers.js'
+import { Mother } from './entities/mother.js'
 import { Poop } from './entities/poop.js'
 import { HomeScreen } from './screens/home.js'
 
@@ -20,17 +21,21 @@ me.device.onReady(() => {
     me.state.set(me.state.PLAY, new HomeScreen())
 
     // register the entities
-    me.pool.register('mcsquare', Player)
-    me.pool.register('terminator', Terminator)
+    me.pool.register('patate', Player)
+    me.pool.register('brother', Brother)
+    me.pool.register('mother', Mother)
     me.pool.register('poop', Poop)
 
     game.hud = new me.TextureAtlas(
       me.loader.getJSON('tileset'),
       me.loader.getImage('tileset')
     )
+
+ 
+
     game.texture = new me.TextureAtlas(
-      me.loader.getJSON('mcsquare'),
-      me.loader.getImage('mcsquare')
+      me.loader.getJSON('patate'),
+      me.loader.getImage('patate')
     )
 
     me.state.change(me.state.PLAY, false)

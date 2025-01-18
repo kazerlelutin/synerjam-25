@@ -4,14 +4,14 @@ export const ressources = [
   { name: 'test', type: 'image', src: 'tiles/test.png' },
 
   //PLAYER ========================================================
-  { name: 'mcsquare', type: 'json', src: 'entities/mcsquare.json' },
-  { name: 'mcsquare', type: 'image', src: 'entities/mcsquare.png' },
+  { name: 'patate', type: 'json', src: 'entities/patate.json' },
+  { name: 'patate', type: 'image', src: 'entities/patate.png' },
 
   //FOES ========================================================
-  { name: 'terminator', type: 'json', src: 'entities/terminator.json' },
-  { name: 'terminator', type: 'image', src: 'entities/terminator.png' },
   { name: 'brother', type: 'json', src: 'entities/miniball.json' },
   { name: 'brother', type: 'image', src: 'entities/miniball.png' },
+  { name: 'mother', type: 'json', src: 'entities/mom.json' },
+  { name: 'mother', type: 'image', src: 'entities/mom.png' },
 
   //PROJECTILE ========================================================
   { name: 'poop', type: 'json', src: 'entities/poop.json' },
