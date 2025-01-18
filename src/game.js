@@ -3,4 +3,5 @@ export const game = {
   texture: null,
   isCinematic: false,
   playerMove: false,
+  level: 1
 }

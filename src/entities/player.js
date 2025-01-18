@@ -65,7 +65,7 @@ export class Player extends me.Entity {
   
       if (me.input.isKeyPressed('jump')) {
         game.playerMove = true
-        if (this.body.jumping || this.body.falling) return
+        if (this.body.jumping || this.body.falling || game.level === 1) return
         //@ts-ignore
         this.renderable.setCurrentAnimation('jump')
   
