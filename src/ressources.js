@@ -1,7 +1,9 @@
 export const ressources = [
   { name: 'tileset', type: 'image', src: 'img/tileset.png' },
+  { name: 'home', type: 'image', src: 'tiles/home.png' },
   { name: 'tileset', type: 'json', src: 'tileset.json' },
   { name: 'test', type: 'image', src: 'tiles/test.png' },
+  
 
   //PLAYER ========================================================
   { name: 'patate', type: 'json', src: 'entities/patate.json' },

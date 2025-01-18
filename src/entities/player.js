@@ -35,7 +35,7 @@ export class Player extends me.Entity {
     me.input.bindKey(me.input.KEY.SPACE, 'jump', true)
     me.input.bindKey(me.input.KEY.DOWN, 'down')
 
-    me.input.bindKey(me.input.KEY.E, 'shoot', true)
+    me.input.bindKey(me.input.KEY.E, 'interact', true)
 
     me.input.bindKey(me.input.KEY.A, 'left')
     me.input.bindKey(me.input.KEY.D, 'right')
@@ -45,7 +45,7 @@ export class Player extends me.Entity {
     // create a new sprite with all animations from the paladin atlas
     this.renderable = game.texture.createAnimationFromName()
 
-    this.anchorPoint.set(0.5, 0.5) // ancre en haut/milieu
+    this.anchorPoint.set(0, 0) // ancre en haut/milieu
     // this.renderable.setCurrentAnimation('stand')
   }
 
@@ -53,28 +53,6 @@ export class Player extends me.Entity {
    ** update the force applied
    */
   update(dt) {
-    if (me.input.isKeyPressed('shoot')) {
-      this.projectDialCount++
-
-      if (this.projectDialCount > 10) {
-        me.audio.stop('projet')
-        me.audio.play('projet', false)
-        this.projectDialCount = 0
-      }
-
-      this.isNotStand = true
-      const laserX = this.facingRight
-        ? this.getBounds().right
-        : this.getBounds().left - LASER_SIZE.WIDTH
-      const laserY = this.pos.y + this.height / 2 - LASER_SIZE.HEIGHT / 2
-      this.renderable.setCurrentAnimation('launch', (ctx) => {
-        me.game.world.addChild(
-          me.pool.pull('poop', laserX, laserY, this.facingRight)
-        )
-        console.log('launching poop', ctx)
-        this.isNotStand = false
-      })
-    }
 
     if (me.input.isKeyPressed('left')) {
       if (this.body.vel.y === 0) {
