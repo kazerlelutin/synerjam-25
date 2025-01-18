@@ -2,12 +2,11 @@ import * as me from 'melonjs'
 import { game } from '../game'
 
 export class Player extends me.Entity {
-  /**
-   * constructor
-   */
+
+  
 
   constructor(x = 0, y = 0) {
-    // call the super constructor
+
     super(x, y, { width: 16, height: 32 })
 
     this.projectDialCount = 0
@@ -24,22 +23,10 @@ export class Player extends me.Entity {
 
     this.multipleJump = 1
 
-    // me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.1)
+    me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.1)
 
-    // enable keyboard
-    me.input.bindKey(me.input.KEY.LEFT, 'left')
-    me.input.bindKey(me.input.KEY.RIGHT, 'right')
-    me.input.bindKey(me.input.KEY.X, 'jump', true)
-    me.input.bindKey(me.input.KEY.UP, 'jump', true)
-    me.input.bindKey(me.input.KEY.SPACE, 'jump', true)
-    me.input.bindKey(me.input.KEY.DOWN, 'down')
 
-    me.input.bindKey(me.input.KEY.E, 'interact', true)
 
-    me.input.bindKey(me.input.KEY.A, 'left')
-    me.input.bindKey(me.input.KEY.D, 'right')
-    me.input.bindKey(me.input.KEY.W, 'jump', true)
-    me.input.bindKey(me.input.KEY.S, 'down')
 
     // create a new sprite with all animations from the paladin atlas
     this.renderable = game.texture.createAnimationFromName()
@@ -53,59 +40,75 @@ export class Player extends me.Entity {
    */
   update(dt) {
 
-    if (me.input.isKeyPressed('left')) {
-      if (this.body.vel.y === 0) {
+    if(!game.isCinematic) {
+
+
+      if (me.input.isKeyPressed('left')) {
+        game.playerMove = true
+        if (this.body.vel.y === 0) {
+          //@ts-ignore
+          this.renderable.setCurrentAnimation('walk')
+        }
+        this.body.force.x = -this.body.maxVel.x
+        this.renderable.flipX(true)
+        this.facingRight = false
+      } else if (me.input.isKeyPressed('right')) {
+        game.playerMove = true
+        if (this.body.vel.y === 0) {
+          //@ts-ignore
+          this.renderable.setCurrentAnimation('walk')
+        }
+        this.facingRight = true
+        this.body.force.x = this.body.maxVel.x
+        this.renderable.flipX(false)
+      }
+  
+      if (me.input.isKeyPressed('jump')) {
+        game.playerMove = true
+        if (this.body.jumping || this.body.falling) return
         //@ts-ignore
-        this.renderable.setCurrentAnimation('walk')
+        this.renderable.setCurrentAnimation('jump')
+  
+        this.body.jumping = true
+  
+        if (this.multipleJump <= 2) {
+          // easy "math" for double jump
+          this.body.force.y = -this.body.maxVel.y
+  
+          // LE SON
+          me.audio.stop('jump')
+          me.audio.play('jump', false)
+        }
+      } else {
+        if (!this.body.falling && !this.body.jumping) {
+          // reset the multipleJump flag if on the ground
+          this.multipleJump = 1
+        } else if (this.body.falling && this.multipleJump < 2) {
+          // reset the multipleJump flag if falling
+          this.multipleJump = 1
+        }
       }
-      this.body.force.x = -this.body.maxVel.x
-      this.renderable.flipX(true)
-      this.facingRight = false
-    } else if (me.input.isKeyPressed('right')) {
-      if (this.body.vel.y === 0) {
-        //@ts-ignore
-        this.renderable.setCurrentAnimation('walk')
+  
+      if (
+        this.body.force.x === 0 &&
+        this.body.force.y === 0 &&
+        !this.isNotStand
+      ) {
+        if (!this.renderable.isCurrentAnimation('stand')) {
+       
+          this.renderable.setCurrentAnimation('stand')
+        }
       }
-      this.facingRight = true
-      this.body.force.x = this.body.maxVel.x
-      this.renderable.flipX(false)
+
+
+
+      if(!me.input.isKeyPressed('left') && !me.input.isKeyPressed('right') && !me.input.isKeyPressed('jump') && !me.input.isKeyPressed('down')) {
+        game.playerMove = false
+      }
+     
     }
 
-    if (me.input.isKeyPressed('jump')) {
-      if (this.body.jumping || this.body.falling) return
-      //@ts-ignore
-      this.renderable.setCurrentAnimation('jump')
-
-      this.body.jumping = true
-
-      if (this.multipleJump <= 2) {
-        // easy "math" for double jump
-        this.body.force.y = -this.body.maxVel.y
-
-        // LE SON
-        me.audio.stop('jump')
-        me.audio.play('jump', false)
-      }
-    } else {
-      if (!this.body.falling && !this.body.jumping) {
-        // reset the multipleJump flag if on the ground
-        this.multipleJump = 1
-      } else if (this.body.falling && this.multipleJump < 2) {
-        // reset the multipleJump flag if falling
-        this.multipleJump = 1
-      }
-    }
-
-    if (
-      this.body.force.x === 0 &&
-      this.body.force.y === 0 &&
-      !this.isNotStand
-    ) {
-      if (!this.renderable.isCurrentAnimation('stand')) {
-        this.renderable.setCurrentAnimation('stand')
-      }
-    }
-
+  
     // check if we fell into a hole
     if (!this.inViewport && this.getBounds().top > me.video.renderer.height) {
       // if yes reset the game

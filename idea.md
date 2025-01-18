@@ -13,7 +13,8 @@ il se déplace, mais il ne sait pas quoi faire.
 ensuite il parle à ses frères, 
 il sont mechants, "dégage patate, tu ne sais pas rebondir..."
 tu ne sais même pas sauter... 
-une fois dit ça, on arrive sur un niveau rêve. 
+
+Frere 3 le bully en lui sautant dessus, il se retrouve dans un rêve.
 introduction de la mécanique de saut, avec une jauge, il change de couleur et ça  donne la force au saut. 
 il y a donc des niveaux de plateforme simple ou sa joue sur le saut. 
 Il debloque au fur et à mesure sa capacité de saut.
