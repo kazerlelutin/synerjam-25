@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="48" height="27" tilewidth="8" tileheight="8" infinite="0" nextlayerid="5" nextobjectid="4">
+<map version="1.10" tiledversion="1.11.1" orientation="orthogonal" renderorder="right-down" width="48" height="27" tilewidth="8" tileheight="8" infinite="0" nextlayerid="5" nextobjectid="8">
  <editorsettings>
   <chunksize width="8" height="8"/>
  </editorsettings>
- <imagelayer id="3" name="bg">
-  <image source="test.png" width="384" height="216"/>
+ <imagelayer id="3" name="bg" offsetx="2.33333" offsety="-0.333333">
+  <image source="home.png" width="384" height="216"/>
  </imagelayer>
  <objectgroup id="4" name="Collision">
-  <object id="1" x="0" y="200">
-   <polyline points="88.3333,-41 138.296,-40.8312 382,-40.6667"/>
-  </object>
-  <object id="2" x="383.333" y="-1.83333" width="11" height="161.333"/>
-  <object id="3" type="slope" x="88.3333" y="159.333">
-   <polygon points="0,0 -0.333333,55.6667 -90.6667,57"/>
-  </object>
+  <object id="2" x="384.021" y="-1.83333" width="11" height="224"/>
+  <object id="4" x="-11.697" y="-3.81818" width="19.6667" height="228.333"/>
+  <object id="5" x="-10" y="192" width="416" height="58.5"/>
  </objectgroup>
 </map>
