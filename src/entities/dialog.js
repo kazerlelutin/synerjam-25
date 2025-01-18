@@ -1,51 +1,28 @@
 import * as me from 'melonjs';
-import { game } from '../game';
 
-export class DialogBox extends me.Container {
-  constructor(x, y, text, timeout = 3000) {
-    super(x, y, 250, 60);
+export class Dialog extends me.Entity {
+  constructor(x, y) {
+    super(x, y,  { width: 16, height: 16 });
 
     this.z = Infinity;
-    this.text = text;
-    this.timeout = timeout;
-    this.isInteractive = true; 
+
     this.anchorPoint.set(0, 0);
+    this.texture = new me.TextureAtlas(
+      me.loader.getJSON('dialog'),
+      me.loader.getImage('dialog')
+    )
 
-  //bg
-    this.background = new me.Renderable(0, 0, this.width, this.height);
-    this.background.alpha = 0.8; // Transparence
-    this.background.draw = (renderer) => {
+    this.body.gravityScale = 0
 
-      console.log(this.pos.x, this.pos.y, this.width, this.height);
-      renderer.setColor("rgba(0, 0, 0, " + this.background.alpha + ")");
-      renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-    };
+    this.body.setMaxVelocity(0,0)
 
-    // text
-    this.textObject = new me.BitmapText(10, 10, {
-      font: "PressStart2P",
-      size: 0.3,
-      text: this.text,
-    });
+    this.body.collisionType = me.collision.types.NO_OBJECT
 
-    //all element
-    this.addChild(this.background);
-    this.addChild(this.textObject);
-
-
-    if (this.timeout > 0) {
-      me.timer.setTimeout(() => {
-        me.game.world.removeChild(this);
-      }, this.timeout);
-    }
+    this.renderable = this.texture.createAnimationFromName()
+    this.renderable.setCurrentAnimation('stand')
   }
 
-
-
-  /**
-   * Update function
-   */
   update(dt) {
-    return true; // Toujours redessiner
+    return true; 
   }
 }

@@ -4,6 +4,10 @@ import { game } from '../game'
 export class Brother extends me.Entity {
   name = 'brother'
 
+  canInteract = true
+  dialog = null;
+
+
   /**
    * constructor
    */
@@ -57,9 +61,19 @@ export class Brother extends me.Entity {
   
     if (other.body.collisionType === me.collision.types.PLAYER_OBJECT) {
 
+      if(!!this.dialog) return false
+      this.dialog = me.pool.pull('dialog', this.pos.x,  this.pos.y - 21)
+      me.game.world.addChild( this.dialog)
+    } else if(this.dialog) {
+      me.game.world.removeChild(this.dialog)
+      this.dialog = null
+
     }
 
-   
     return false
   }
+
+
+
+
 }

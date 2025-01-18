@@ -19,6 +19,10 @@ export const ressources = [
   { name: 'poop', type: 'json', src: 'entities/poop.json' },
   { name: 'poop', type: 'image', src: 'entities/poop.png' },
 
+
+  { name: 'dialog', type: 'json', src: 'entities/dialog.json' },
+  { name: 'dialog', type: 'image', src: 'entities/dialog.png' },
+
   //SOUNDS ========================================================
   { name: 'jump', type: 'audio', src: 'sounds/' },
   { name: 'explosion', type: 'audio', src: 'sounds/' },

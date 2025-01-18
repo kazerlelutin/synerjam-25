@@ -2,10 +2,9 @@ import * as me from 'melonjs'
 import { game } from '../game'
 
 export class Mother extends me.Entity {
-  dying = false
-  multipleJump = 1
+
   name = 'mother'
-  hurt = false
+  dialog = null;
 
   /**
    * constructor
@@ -64,10 +63,19 @@ export class Mother extends me.Entity {
   onCollision(response, other) {
 
     if (other.body.collisionType === me.collision.types.PLAYER_OBJECT) {
-      // spike or any other fixed danger
+
+      if (me.input.isKeyPressed('interact')) {
+        this.showDialogue()
+      }
+
+      if(!!this.dialog) return false
+      this.dialog = me.pool.pull('dialog', this.pos.x,  this.pos.y - 35)
+      me.game.world.addChild( this.dialog)
+    } else if(this.dialog) {
+      me.game.world.removeChild(this.dialog)
+      this.dialog = null
 
     }
-
     
     return false
   }
