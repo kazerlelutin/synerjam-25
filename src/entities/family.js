@@ -62,9 +62,9 @@ export class Family extends me.Entity {
       this.hideDialog();
     } else {
 
-
+      this.hud = new UIContainer(DIAL[this.userName], this.userName);
+      me.game.world.addChild(this.hud);
     }
-
     if (game.level === 4 && game.family.find(f => f === this.userName)) {
 
       game.playerMove = false

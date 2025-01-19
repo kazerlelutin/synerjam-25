@@ -14,7 +14,9 @@ export class Player extends me.Entity {
 
     this.alwaysUpdate = true
     this.body.setMaxVelocity(3, 15)
-    this.body.setFriction(1.0, 0)
+    this.body.setFriction(.9, 0)
+
+    this.body.gravityScale = 1.2
 
     this.dying = false
 
