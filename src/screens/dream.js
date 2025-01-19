@@ -11,6 +11,6 @@ export class Dream extends me.Stage {
     me.game.viewport.fadeOut('#000', 150);
     game.level = 2
     game.isKinematic = false
-    me.game.world.addChild(new Player(50, 0), 1)
+    me.game.world.addChild(new Player(20, 0), 1)
   }
 }

@@ -4,7 +4,7 @@ import UIContainer from './HUD'
 
 export class Player extends me.Entity {
   constructor(x = 0, y = 0) {
-    super(x, y, { width: 16, height: 32 })
+    super(x, y, { width: 16, height: 16 })
 
     this.projectDialCount = 0
     this.facingRight = true
@@ -18,7 +18,8 @@ export class Player extends me.Entity {
 
     this.dying = false
 
-    me.game.viewport.setDeadzone(100, 250)
+    me.game.viewport.setDeadzone(16, 100)
+
 
     me.game.viewport.follow(this, me.game.viewport.AXIS.HORIZONTAL, 0.7)
 
