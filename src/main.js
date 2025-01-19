@@ -64,6 +64,6 @@ me.device.onReady(() => {
     )
 
     //me.state.change(me.state.PLAY, false)
-    me.state.change(me.state.PLAY, false)
+    me.state.change(me.state.USER + 2, false)
   })
 })

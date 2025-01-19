@@ -60,7 +60,7 @@ export class Family extends me.Entity {
   showDialog() {
     if (this.hud) {
       this.hideDialog();
-    } else {
+    } else if (game.level !== 4 && this.userName !== "Kevin") {
 
       this.hud = new UIContainer(DIAL[this.userName], this.userName);
       me.game.world.addChild(this.hud);
@@ -75,11 +75,10 @@ export class Family extends me.Entity {
       me.timer.setTimeout(() => {
 
         game.stopMove = false
-
         game.playerMove = true
-        this.hideDialog();
-
         game.family = game.family.filter(f => f !== this.userName);
+
+        this.hideDialog();
 
       }, 2000);
     }
@@ -92,6 +91,8 @@ export class Family extends me.Entity {
       this.dialog = null;
     }
     if (this.hud) {
+
+
       me.game.world.removeChild(this.hud);
       this.hud = null;
     }

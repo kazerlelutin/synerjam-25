@@ -11,7 +11,7 @@ export class FinalScreen extends me.Stage {
 
     game.level = 4
 
-    game.isKinematic = false
+    game.isKinematic = true
     game.playerMove = false
     me.game.viewport.fadeOut('#000', 250);
     me.level.load('final')

@@ -140,6 +140,7 @@ export class Player extends me.Entity {
           me.game.viewport.fadeIn('#000', 150, function () {
             try {
               game.level = 3
+
               me.state.change(me.state.USER + 2)
             } catch (e) {
               console.error('Erreur lors du chargement du niveau :', e)
@@ -152,7 +153,7 @@ export class Player extends me.Entity {
         }
 
         if (other.type === 'spike') {
-          const spawnX = 50,
+          const spawnX = 20,
             spawnY = 0
           me.game.viewport.fadeIn('#000', 150, () => {
             me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.5)
@@ -176,7 +177,15 @@ export class Player extends me.Entity {
             this.renderable.setCurrentAnimation('crush', (ctx) => {
               // Appliquer la force du rebond
               this.isNotStand = false // Rebond proportionnel à la chute
-              this.body.vel.y = -reboundForce
+
+              this.body.gravityScale = 0.8
+
+              this.body.vel.y = -reboundForce < -12 ? -12 : -reboundForce
+
+              if (me.input.isKeyPressed('down')) {
+                this.body.vel.y = -8
+              }
+
               me.audio.stop('jump')
               me.audio.play('jump', false)
             })
@@ -209,8 +218,6 @@ export class Player extends me.Entity {
         else if (other.type === 'slope') {
 
           if (game.level === 4) {
-            console.log('collision slope ===>')
-
 
             this.body.jumping = true
             this.body.vel.y = -14
@@ -218,15 +225,20 @@ export class Player extends me.Entity {
             this.hud = new UIContainer("Mais qu'il est bete...\nIl ne pourra jamais remonter", "Patate");
             me.game.world.addChild(this.hud);
 
-
-
             me.timer.setTimeout(() => {
               this.alpha = 0
               this.visible = false
               this.pos.set(-1000, -1000, this.pos.z);
 
-            }, 500)
+            }, 300)
             me.timer.setTimeout(() => {
+              game.level = 1
+              game.dialog = ""
+
+              game.isKinematic = true
+              game.playerMove = false
+              game.family = ['Mother', 'Jimmy', 'Dylan', 'Kevin']
+              me.game.world.removeChild(this.hud);
               me.state.change(me.state.PLAY);
             }, 3000)
 
@@ -248,7 +260,7 @@ export class Player extends me.Entity {
             '#000',
             150,
             function () {
-              console.log('Changement de niveau')
+
               return me.state.change(me.state.USER + 3)
             },
             500
