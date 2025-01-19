@@ -2,7 +2,6 @@ import './style.css'
 import * as me from 'melonjs'
 import { game } from './game.js'
 import { ressources } from './ressources.js'
-import { PlayScreen } from './screens/play.js'
 import { Player } from './entities/player.js'
 import { Family } from './entities/family.js'
 import { HomeScreen } from './screens/home.js'
@@ -38,8 +37,8 @@ me.device.onReady(() => {
   me.audio.init('mp3,ogg')
   me.loader.preload(ressources, () => {
 
-    me.state.set(me.state.PLAY, new Dream())
-    me.state.set(me.state.USER + 1, new HomeScreen());
+    me.state.set(me.state.PLAY, new HomeScreen())
+    me.state.set(me.state.USER + 1, new Dream());
     me.state.set(me.state.USER + 2, new FinalScreen());
 
     // me.state.set(me.state.PLAY, new HomeScreen())
@@ -61,6 +60,7 @@ me.device.onReady(() => {
       me.loader.getImage('patate')
     )
 
-    me.state.change(me.state.PLAY, false)
+    //me.state.change(me.state.PLAY, false)
+    me.state.change(me.state.USER + 1, false)
   })
 })

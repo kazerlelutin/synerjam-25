@@ -5,7 +5,7 @@ export const ressources = [
   { name: 'test', type: 'image', src: 'tiles/test.png' },
   { name: 'dream', type: 'image', src: 'img/dream.png' },
 
-  
+
 
   //PLAYER ========================================================
   { name: 'patate', type: 'json', src: 'entities/patate.json' },
@@ -26,7 +26,7 @@ export const ressources = [
   { name: 'jump', type: 'audio', src: 'sounds/' },
   { name: 'explosion', type: 'audio', src: 'sounds/' },
   { name: 'poop_ground', type: 'audio', src: 'sounds/' },
-  { name: 'hurt', type: 'audio', src: 'sounds/' },
+  { name: 'spike', type: 'audio', src: 'sounds/' },
   { name: 'outch', type: 'audio', src: 'sounds/' },
   { name: 'projet', type: 'audio', src: 'sounds/' },
 

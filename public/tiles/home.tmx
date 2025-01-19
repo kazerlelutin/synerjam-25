@@ -7,8 +7,8 @@
   <image source="home.png" width="384" height="216"/>
  </imagelayer>
  <objectgroup id="4" name="Collision">
-  <object id="2" x="384.021" y="-1.83333" width="11" height="224"/>
-  <object id="4" x="-6.19697" y="-3.81818" width="14.1667" height="228.333"/>
+  <object id="2" type="exit" x="384.021" y="-1.83333" width="11" height="224"/>
+  <object id="4" type="exit" x="-6.19697" y="-3.81818" width="14.1667" height="228.333"/>
   <object id="5" x="-10" y="192" width="416" height="58.5"/>
  </objectgroup>
 </map>

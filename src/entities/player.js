@@ -1,6 +1,5 @@
 import * as me from 'melonjs'
 import { game } from '../game'
-import { Dream } from '../screens/dream'
 
 export class Player extends me.Entity {
   constructor(x = 0, y = 0) {
@@ -31,6 +30,11 @@ export class Player extends me.Entity {
    ** update the force applied
    */
   update(dt) {
+
+    if (this.body.falling && !this.renderable.isCurrentAnimation('fall') && this.body.vel.y >= 15) {
+      this.renderable.setCurrentAnimation('fall')
+    }
+
     if (!game.isKinematic) {
       if (me.input.isKeyPressed('left')) {
         game.playerMove = true
@@ -55,9 +59,9 @@ export class Player extends me.Entity {
       if (me.input.isKeyPressed('jump')) {
         game.playerMove = true
 
-        if (this.body.jumping || this.body.falling || game.level === 1) return
-        //@ts-ignore
-        this.renderable.setCurrentAnimation('fall')
+        if (this.body.jumping || this.body.falling || game.level !== 2) return
+
+        this.renderable.setCurrentAnimation('crush')
 
         this.body.jumping = true
         // // LE SON
@@ -89,8 +93,6 @@ export class Player extends me.Entity {
       }
     }
 
-
-
     me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.5)
 
     // Pour le stand
@@ -101,18 +103,6 @@ export class Player extends me.Entity {
     super.draw(renderer)
   }
 
-  hurt() {
-    if (this.invincible) return
-    this.invincible = true
-
-    return
-    me.audio.stop('hurt')
-    me.audio.play('hurt', false)
-    this.renderable.setCurrentAnimation('hurt', (ctx) => { })
-    me.timer.setTimeout(() => {
-      this.invincible = false
-    }, 1000)
-  }
   /**
    * colision handler
    */
@@ -136,10 +126,17 @@ export class Player extends me.Entity {
 
         if (other.type === 'spike') {
           const spawnX = 50,
-            spawnY = 750
-          this.pos.set(spawnX, spawnY, this.pos.z)
+            spawnY = 0
+          me.game.viewport.fadeIn('#000', 150, () => {
 
-          me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.5)
+            me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.5)
+            me.audio.stop('spike')
+            me.audio.play('spike', false)
+
+            me.game.viewport.fadeOut('#000', 150)
+            this.pos.set(spawnX, spawnY, this.pos.z)
+
+          })
         }
 
         if (game.level === 2) {
@@ -152,7 +149,7 @@ export class Player extends me.Entity {
               this.body.maxVel.y * 2
             ) // Limiter la force max
 
-            this.renderable.setCurrentAnimation('fall', (ctx) => {
+            this.renderable.setCurrentAnimation('crush', (ctx) => {
               // Appliquer la force du rebond
               this.isNotStand = false// Rebond proportionnel à la chute
               this.body.vel.y = -reboundForce
@@ -190,7 +187,6 @@ export class Player extends me.Entity {
           response.overlapV.y = Math.abs(response.overlap)
           response.overlapV.x = 0
           this.body.vel.x = 0
-
           // Respond to the slope (it is solid)
           return true
         }
@@ -212,29 +208,6 @@ export class Player extends me.Entity {
         }
 
         return false
-
-      case me.collision.types.ENEMY_OBJECT:
-        if (!other.isMovingEnemy) {
-          // sens
-          if (this.pos.x < other.pos.x) {
-            this.body.vel.x = -175 * me.timer.tick
-          } else {
-            this.body.vel.x = 175 * me.timer.tick
-          }
-
-          this.hurt()
-        } else {
-          // a regular moving enemy entity
-          if (response.overlapV.y > 0 && this.body.falling) {
-            // jump
-            //  this.body.vel.y -= this.body.maxVel.y * 1.5 * me.timer.tick
-          } else {
-            this.hurt()
-          }
-          // Not solid
-          return false
-        }
-        break
 
       default:
         // Do not respond to other objects (e.g. coins)

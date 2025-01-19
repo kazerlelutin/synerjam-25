@@ -1,18 +1,17 @@
 import * as me from 'melonjs'
 import { Player } from '../entities/player'
 import { Family } from '../entities/family'
-import UIContainer from '../entities/HUD'
 
 export class HomeScreen extends me.Stage {
   /**
    *  action to perform on state change
    */
   onResetEvent() {
-    me.level.load('home')  
-     me.game.viewport.fadeOut('#000', 150);
+    me.level.load('home')
+    me.game.viewport.fadeOut('#000', 150);
     me.game.world.addChild(new Player(130, 192 - 32), 1)
 
-    const family =   [
+    const family = [
 
       {
         x: 300,
