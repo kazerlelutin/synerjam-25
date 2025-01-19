@@ -3,5 +3,7 @@ export const game = {
   texture: null,
   isKinematic: true,
   playerMove: false,
-  level: 1
+  level: 1,
+
+  family: ['Mother', 'Jimmy', 'Dylan', 'Kevin'],
 }

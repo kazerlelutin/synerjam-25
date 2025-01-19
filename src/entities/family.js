@@ -1,7 +1,6 @@
 import * as me from 'melonjs';
 import { game } from '../game';
 import UIContainer from './HUD';
-import { Dream } from '../screens/dream';
 
 const SIZES = {
   mother: { width: 32, height: 48 },
@@ -15,6 +14,13 @@ const DIAL = {
   Kevin: "Kevin",
 };
 
+
+const DIAL_END = {
+  Mother: "Tu te sens mieux Patate ?",
+  Jimmy: 'Jimmy: "Visiblement tu as pris une balle perdue !"',
+  Dylan: 'Dylan: "Il est de retour le platiste ?!" ',
+  Kevin: "Tu es reveille Patate? \nTu ne supporte pas bien les chocs.",
+};
 export class Family extends me.Entity {
   dialog = null;
   hud = null;
@@ -54,14 +60,28 @@ export class Family extends me.Entity {
   showDialog() {
     if (this.hud) {
       this.hideDialog();
-    }  
-    else if(this.userName === "Kevin") {
+    } else {
 
 
     }
-    else {
-      this.hud = new UIContainer(DIAL[this.userName], this.userName);
+
+    if (game.level === 4 && game.family.find(f => f === this.userName)) {
+
+      game.playerMove = false
+      game.stopMove = true
+      this.hud = new UIContainer(DIAL_END[this.userName], this.userName);
       me.game.world.addChild(this.hud);
+
+      me.timer.setTimeout(() => {
+
+        game.stopMove = false
+
+        game.playerMove = true
+        this.hideDialog();
+
+        game.family = game.family.filter(f => f !== this.userName);
+
+      }, 2000);
     }
   }
 
@@ -80,6 +100,8 @@ export class Family extends me.Entity {
   onCollision(response, other) {
     if (other.body.collisionType === me.collision.types.PLAYER_OBJECT) {
 
+
+
       if (this.userName === "Mother" &&
         game.isKinematic && !this.stopMove) {
         this.stopMove = true;
@@ -95,6 +117,11 @@ export class Family extends me.Entity {
 
       if (me.input.isKeyPressed('interact')) {
         this.showDialog();
+      }
+
+      if (game.level === 4) {
+        this.showDialog();
+        return false
       }
     }
 

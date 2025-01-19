@@ -8,6 +8,7 @@ import { HomeScreen } from './screens/home.js'
 import { Dream } from './screens/dream.js'
 import { Dialog } from './entities/dialog.js'
 import { FinalScreen } from './screens/final.js'
+import { Interlude } from './screens/interlude.js'
 
 me.device.onReady(() => {
   me.video.init(384, 216, {
@@ -38,6 +39,8 @@ me.device.onReady(() => {
   me.loader.preload(ressources, () => {
 
     me.state.set(me.state.PLAY, new HomeScreen())
+
+    me.state.set(me.state.USER + 3, new Interlude())
     me.state.set(me.state.USER + 1, new Dream());
     me.state.set(me.state.USER + 2, new FinalScreen());
 
@@ -61,6 +64,6 @@ me.device.onReady(() => {
     )
 
     //me.state.change(me.state.PLAY, false)
-    me.state.change(me.state.USER + 1, false)
+    me.state.change(me.state.USER + 2, false)
   })
 })

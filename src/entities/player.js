@@ -1,5 +1,6 @@
 import * as me from 'melonjs'
 import { game } from '../game'
+import UIContainer from './HUD'
 
 export class Player extends me.Entity {
   constructor(x = 0, y = 0) {
@@ -31,11 +32,23 @@ export class Player extends me.Entity {
    */
   update(dt) {
 
-    if (this.body.falling && !this.renderable.isCurrentAnimation('fall') && this.body.vel.y >= 15) {
+    if (game.level === 4) {
+      this.body.vel.x = game.stopMove === true ? 0 : -3;
+    }
+
+    if (
+      this.body.falling &&
+      !this.renderable.isCurrentAnimation('fall') &&
+      this.body.vel.y >= 15 && game.level === 2
+    ) {
+
+
       this.renderable.setCurrentAnimation('fall')
     }
 
+
     if (!game.isKinematic) {
+
       if (me.input.isKeyPressed('left')) {
         game.playerMove = true
         if (this.body.vel.y === 0) {
@@ -91,29 +104,40 @@ export class Player extends me.Entity {
       if (!me.input.isKeyPressed('left') && !me.input.isKeyPressed('right')) {
         this.body.force.x = 0 // Réinitialiser les forces horizontales
       }
+    } else {
+
+      if (
+        this.body.force.x === 0 &&
+        this.body.force.y === 0 &&
+        !this.isNotStand
+      ) {
+        if (!this.renderable.isCurrentAnimation('stand')) {
+          this.renderable.setCurrentAnimation('stand')
+        }
+      }
     }
 
-    me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.5)
-
+    if (game.level === 2) {
+      me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.5)
+    }
+    return super.update(dt) || this.body.vel?.x !== 0 || this.body.vel?.y !== 0
     // Pour le stand
-    return super.update(dt) || this.body.vel.x !== 0 || this.body.vel.y !== 0
   }
 
   draw(renderer) {
     super.draw(renderer)
   }
 
-  /**
-   * colision handler
-   */
   onCollision(response, other) {
+
+
     switch (other.body.collisionType) {
       case me.collision.types.WORLD_SHAPE:
         if (other.type === 'exit') {
           me.game.viewport.fadeIn('#000', 150, function () {
             try {
               game.level = 3
-              me.state.change(me.state.USER + 2);
+              me.state.change(me.state.USER + 2)
             } catch (e) {
               console.error('Erreur lors du chargement du niveau :', e)
             }
@@ -128,20 +152,17 @@ export class Player extends me.Entity {
           const spawnX = 50,
             spawnY = 0
           me.game.viewport.fadeIn('#000', 150, () => {
-
             me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.5)
             me.audio.stop('spike')
             me.audio.play('spike', false)
 
             me.game.viewport.fadeOut('#000', 150)
             this.pos.set(spawnX, spawnY, this.pos.z)
-
           })
         }
 
         if (game.level === 2) {
           if (this.body.falling && response.overlapV.y > 0.5) {
-
             this.isNotStand = true
             // Calculer la force du rebond en fonction de la vitesse de chute
             const reboundForce = Math.min(
@@ -151,7 +172,7 @@ export class Player extends me.Entity {
 
             this.renderable.setCurrentAnimation('crush', (ctx) => {
               // Appliquer la force du rebond
-              this.isNotStand = false// Rebond proportionnel à la chute
+              this.isNotStand = false // Rebond proportionnel à la chute
               this.body.vel.y = -reboundForce
               me.audio.stop('jump')
               me.audio.play('jump', false)
@@ -176,13 +197,38 @@ export class Player extends me.Entity {
             return true
           }
 
-
           // Do not respond to the platform (pass through)
           return false
         }
 
+
         // Custom collision response for slopes
         else if (other.type === 'slope') {
+
+          if (game.level === 4) {
+            console.log('collision slope ===>')
+
+
+            this.body.jumping = true
+            this.body.vel.y = -14
+
+            this.hud = new UIContainer("Mais qu'il est bete...\nIl ne pourra jamais remonter", "Patate");
+            me.game.world.addChild(this.hud);
+
+
+
+            me.timer.setTimeout(() => {
+              this.alpha = 0
+              this.visible = false
+              this.pos.set(-1000, -1000, this.pos.z);
+
+            }, 500)
+            me.timer.setTimeout(() => {
+              me.state.change(me.state.PLAY);
+            }, 3000)
+
+          }
+
           // Always adjust the collision response upward
           response.overlapV.y = Math.abs(response.overlap)
           response.overlapV.x = 0
@@ -193,18 +239,17 @@ export class Player extends me.Entity {
         break
 
       case me.collision.types.NPC_OBJECT:
-        if (other.userName === 'Kevin') {
-          me.timer.setTimeout(() => {
-            me.game.viewport.fadeIn('#000', 150, function () {
-              try {
-                game.level = 2
-                me.level.load('dream')
-                me.game.viewport.fadeOut('#000', 150)
-              } catch (e) {
-                console.error('Erreur lors du chargement du niveau :', e)
-              }
-            })
-          }, 500)
+
+        if (other.userName === 'Kevin' && game.level !== 4) {
+          me.game.viewport.fadeIn(
+            '#000',
+            150,
+            function () {
+              console.log('Changement de niveau')
+              return me.state.change(me.state.USER + 3)
+            },
+            500
+          )
         }
 
         return false

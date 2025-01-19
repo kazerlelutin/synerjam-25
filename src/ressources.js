@@ -1,6 +1,8 @@
 export const ressources = [
   { name: 'tileset', type: 'image', src: 'img/tileset.png' },
   { name: 'home', type: 'image', src: 'tiles/home.png' },
+  { name: 'final', type: 'image', src: 'tiles/final.png' },
+  { name: 'interlude', type: 'image', src: 'tiles/interlude.png' },
   { name: 'tileset', type: 'json', src: 'tileset.json' },
   { name: 'test', type: 'image', src: 'tiles/test.png' },
   { name: 'dream', type: 'image', src: 'img/dream.png' },
@@ -24,15 +26,13 @@ export const ressources = [
 
   //SOUNDS ========================================================
   { name: 'jump', type: 'audio', src: 'sounds/' },
-  { name: 'explosion', type: 'audio', src: 'sounds/' },
-  { name: 'poop_ground', type: 'audio', src: 'sounds/' },
   { name: 'spike', type: 'audio', src: 'sounds/' },
-  { name: 'outch', type: 'audio', src: 'sounds/' },
-  { name: 'projet', type: 'audio', src: 'sounds/' },
 
   // LEVELS ========================================================
   { name: 'home', type: 'tmx', src: 'tiles/home.tmx' },
+  { name: 'final', type: 'tmx', src: 'tiles/final.tmx' },
 
+  { name: 'interlude', type: 'tmx', src: 'tiles/interlude.tmx' },
   { name: 'dream', type: 'tmx', src: 'tiles/dream.tmx' },
   { name: 'dreamTileset', type: 'tsx', src: 'tiles/dreamTileset.tsx' },
 

@@ -1,21 +1,27 @@
 import * as me from 'melonjs'
 import { Player } from '../entities/player'
 import { Family } from '../entities/family'
+import { game } from '../game'
 
 export class FinalScreen extends me.Stage {
   /**
    *  action to perform on state change
    */
   onResetEvent() {
-    me.level.load('home')
-    me.game.viewport.fadeOut('#000', 150);
-    me.game.world.addChild(new Player(130, 192 - 32), 1)
+
+    game.level = 4
+
+    game.isKinematic = false
+    game.playerMove = false
+    me.game.viewport.fadeOut('#000', 250);
+    me.level.load('final')
+    me.game.world.addChild(new Player(350, 175 - 32), 1)
 
     const family = [
 
       {
-        x: 300,
-        y: 192 - 42,
+        x: 140,
+        y: 192 - 19,
         opts: {
           userName: 'Mother',
           type: 'mother',
@@ -23,16 +29,16 @@ export class FinalScreen extends me.Stage {
 
       },
       {
-        x: 300,
-        y: 192 - 32,
+        x: 200,
+        y: 192 - 10,
         opts: {
           userName: 'Jimmy',
           type: 'brother',
         }
       },
       {
-        x: 280,
-        y: 192 - 32,
+        x: 250,
+        y: 192 - 10,
         opts: {
           userName: 'Dylan',
           type: 'brother',
@@ -40,15 +46,13 @@ export class FinalScreen extends me.Stage {
 
       },
       {
-        x: 320,
-        y: 192 - 32,
+        x: 300,
+        y: 192 - 10,
         opts: {
           userName: 'Kevin',
           type: 'brother',
         }
-
       }
-
     ]
 
     family.forEach(pnj => {
