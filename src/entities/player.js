@@ -18,7 +18,7 @@ export class Player extends me.Entity {
 
     this.alwaysUpdate = true
     this.body.setMaxVelocity(3, 15)
-    this.body.setFriction(0.7, 0)
+    this.body.setFriction(1.0, 0);
 
     this.dying = false
 
@@ -26,14 +26,9 @@ export class Player extends me.Entity {
 
     me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.1)
 
-
-
-
     // create a new sprite with all animations from the paladin atlas
     this.renderable = game.texture.createAnimationFromName()
-
-    this.anchorPoint.set(0, 0) // ancre en haut/milieu
-    // this.renderable.setCurrentAnimation('stand')
+    this.anchorPoint.set(0.5, 0.5)
   }
 
   /**
@@ -77,18 +72,10 @@ export class Player extends me.Entity {
           this.body.force.y = -this.body.maxVel.y
 
           // LE SON
-          me.audio.stop('jump')
-          me.audio.play('jump', false)
+          // me.audio.stop('jump')
+          // me.audio.play('jump', false)
         }
-      } else {
-        if (!this.body.falling && !this.body.jumping) {
-          // reset the multipleJump flag if on the ground
-          this.multipleJump = 1
-        } else if (this.body.falling && this.multipleJump < 2) {
-          // reset the multipleJump flag if falling
-          this.multipleJump = 1
-        }
-      }
+      } 
 
       if (
         this.body.force.x === 0 &&
@@ -96,13 +83,17 @@ export class Player extends me.Entity {
         !this.isNotStand
       ) {
         if (!this.renderable.isCurrentAnimation('stand')) {
-
           this.renderable.setCurrentAnimation('stand')
         }
       }
 
       if (!me.input.isKeyPressed('left') && !me.input.isKeyPressed('right') && !me.input.isKeyPressed('jump') && !me.input.isKeyPressed('down')) {
         game.playerMove = false
+      }
+
+
+      if (!me.input.isKeyPressed('left') && !me.input.isKeyPressed('right')) {
+        this.body.force.x = 0; // Réinitialiser les forces horizontales
       }
 
     }
@@ -144,9 +135,11 @@ export class Player extends me.Entity {
    * colision handler
    */
   onCollision(response, other) {
+
     switch (other.body.collisionType) {
       case me.collision.types.WORLD_SHAPE:
         // Simulate a platform object
+        console.log('pla',other.type)
         if (other.type === 'platform') {
           if (
             this.body.falling &&
@@ -156,7 +149,9 @@ export class Player extends me.Entity {
             // The velocity is reasonably fast enough to have penetrated to the overlap depth
             ~~this.body.vel.y >= ~~response.overlapV.y
           ) {
+         
             // Disable collision on the x axis
+            this.body.vel.x = 0;
             response.overlapV.x = 0
             // Respond to the platform (it is solid)
             return true
@@ -167,9 +162,11 @@ export class Player extends me.Entity {
 
         // Custom collision response for slopes
         else if (other.type === 'slope') {
+          console.log('slope')
           // Always adjust the collision response upward
           response.overlapV.y = Math.abs(response.overlap)
           response.overlapV.x = 0
+          this.body.vel.x = 0;
 
           // Respond to the slope (it is solid)
           return true

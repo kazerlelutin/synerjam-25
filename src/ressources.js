@@ -3,7 +3,8 @@ export const ressources = [
   { name: 'home', type: 'image', src: 'tiles/home.png' },
   { name: 'tileset', type: 'json', src: 'tileset.json' },
   { name: 'test', type: 'image', src: 'tiles/test.png' },
-  { name: 'dream', type: 'image', src: 'tiles/home.png' },
+  { name: 'dream', type: 'image', src: 'img/dream.png' },
+
   
 
   //PLAYER ========================================================
@@ -33,7 +34,7 @@ export const ressources = [
   { name: 'home', type: 'tmx', src: 'tiles/home.tmx' },
 
   { name: 'dream', type: 'tmx', src: 'tiles/dream.tmx' },
-
+  { name: 'dreamTileset', type: 'tsx', src: 'tiles/dreamTileset.tsx' },
 
 
   { name: 'final', type: 'tmx', src: 'tiles/final.tmx' },

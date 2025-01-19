@@ -23,3 +23,12 @@ Juste ça.
 
 Il sort de son rêve, et il est content, il sait sauter.
 il peut sauter en dehors du niveau, 
+
+
+```
+ <tileset firstgid="1" name="dream" tilewidth="8" tileheight="8" tilecount="17" columns="17">
+  <image source="../img/dream.png" width="136" height="8"/>
+ </tileset>
+ <tileset firstgid="18" source="./dreamTileset.tsx"/>
+
+```
