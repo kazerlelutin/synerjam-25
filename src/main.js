@@ -8,6 +8,7 @@ import { Family } from './entities/family.js'
 import { HomeScreen } from './screens/home.js'
 import { Dream } from './screens/dream.js'
 import { Dialog } from './entities/dialog.js'
+import { FinalScreen } from './screens/final.js'
 
 me.device.onReady(() => {
   me.video.init(384, 216, {
@@ -38,7 +39,10 @@ me.device.onReady(() => {
   me.loader.preload(ressources, () => {
 
     me.state.set(me.state.PLAY, new Dream())
-   // me.state.set(me.state.PLAY, new HomeScreen())
+    me.state.set(me.state.USER + 1, new HomeScreen());
+    me.state.set(me.state.USER + 2, new FinalScreen());
+
+    // me.state.set(me.state.PLAY, new HomeScreen())
 
     // register the entities
     me.pool.register('patate', Player)
@@ -50,7 +54,7 @@ me.device.onReady(() => {
       me.loader.getImage('tileset')
     )
 
- 
+
 
     game.texture = new me.TextureAtlas(
       me.loader.getJSON('patate'),

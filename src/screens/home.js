@@ -9,6 +9,7 @@ export class HomeScreen extends me.Stage {
    */
   onResetEvent() {
     me.level.load('home')  
+     me.game.viewport.fadeOut('#000', 150);
     me.game.world.addChild(new Player(130, 192 - 32), 1)
 
     const family =   [

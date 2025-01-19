@@ -3,11 +3,7 @@ import { game } from '../game'
 import { Dream } from '../screens/dream'
 
 export class Player extends me.Entity {
-
-
-
   constructor(x = 0, y = 0) {
-
     super(x, y, { width: 16, height: 32 })
 
     this.projectDialCount = 0
@@ -18,13 +14,13 @@ export class Player extends me.Entity {
 
     this.alwaysUpdate = true
     this.body.setMaxVelocity(3, 15)
-    this.body.setFriction(1.0, 0);
+    this.body.setFriction(1.0, 0)
 
     this.dying = false
 
-    this.multipleJump = 1
+    me.game.viewport.setDeadzone(100, 250)
 
-    me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.1)
+    me.game.viewport.follow(this, me.game.viewport.AXIS.HORIZONTAL, 0.7)
 
     // create a new sprite with all animations from the paladin atlas
     this.renderable = game.texture.createAnimationFromName()
@@ -35,10 +31,7 @@ export class Player extends me.Entity {
    ** update the force applied
    */
   update(dt) {
-
     if (!game.isKinematic) {
-
-
       if (me.input.isKeyPressed('left')) {
         game.playerMove = true
         if (this.body.vel.y === 0) {
@@ -61,21 +54,16 @@ export class Player extends me.Entity {
 
       if (me.input.isKeyPressed('jump')) {
         game.playerMove = true
+
         if (this.body.jumping || this.body.falling || game.level === 1) return
         //@ts-ignore
-        this.renderable.setCurrentAnimation('jump')
+        this.renderable.setCurrentAnimation('fall')
 
         this.body.jumping = true
-
-        if (this.multipleJump <= 2) {
-          // easy "math" for double jump
-          this.body.force.y = -this.body.maxVel.y
-
-          // LE SON
-          // me.audio.stop('jump')
-          // me.audio.play('jump', false)
-        }
-      } 
+        // // LE SON
+        // me.audio.stop('jump')
+        // me.audio.play('jump', false)
+      }
 
       if (
         this.body.force.x === 0 &&
@@ -87,29 +75,23 @@ export class Player extends me.Entity {
         }
       }
 
-      if (!me.input.isKeyPressed('left') && !me.input.isKeyPressed('right') && !me.input.isKeyPressed('jump') && !me.input.isKeyPressed('down')) {
+      if (
+        !me.input.isKeyPressed('left') &&
+        !me.input.isKeyPressed('right') &&
+        !me.input.isKeyPressed('jump') &&
+        !me.input.isKeyPressed('down')
+      ) {
         game.playerMove = false
       }
 
-
       if (!me.input.isKeyPressed('left') && !me.input.isKeyPressed('right')) {
-        this.body.force.x = 0; // Réinitialiser les forces horizontales
+        this.body.force.x = 0 // Réinitialiser les forces horizontales
       }
-
     }
 
 
-    // check if we fell into a hole
-    if (!this.inViewport && this.getBounds().top > me.video.renderer.height) {
-      // if yes reset the game
-      me.game.world.removeChild(this)
-      me.game.viewport.fadeIn('#fff', 150, function () {
-        //  me.audio.play("die", false);
-        me.level.reload()
-        me.game.viewport.fadeOut('#fff', 150)
-      })
-      return true
-    }
+
+    me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.5)
 
     // Pour le stand
     return super.update(dt) || this.body.vel.x !== 0 || this.body.vel.y !== 0
@@ -135,11 +117,52 @@ export class Player extends me.Entity {
    * colision handler
    */
   onCollision(response, other) {
-
     switch (other.body.collisionType) {
       case me.collision.types.WORLD_SHAPE:
+        if (other.type === 'exit') {
+          me.game.viewport.fadeIn('#000', 150, function () {
+            try {
+              game.level = 3
+              me.state.change(me.state.USER + 2);
+            } catch (e) {
+              console.error('Erreur lors du chargement du niveau :', e)
+            }
+          })
+        }
+        if (this.body.jumping) {
+          me.audio.stop('jump')
+          me.audio.play('jump', false)
+        }
+
+        if (other.type === 'spike') {
+          const spawnX = 50,
+            spawnY = 750
+          this.pos.set(spawnX, spawnY, this.pos.z)
+
+          me.game.viewport.follow(this, me.game.viewport.AXIS.BOTH, 0.5)
+        }
+
+        if (game.level === 2) {
+          if (this.body.falling && response.overlapV.y > 0.5) {
+
+            this.isNotStand = true
+            // Calculer la force du rebond en fonction de la vitesse de chute
+            const reboundForce = Math.min(
+              Math.abs(this.body.vel.y) * 1.5,
+              this.body.maxVel.y * 2
+            ) // Limiter la force max
+
+            this.renderable.setCurrentAnimation('fall', (ctx) => {
+              // Appliquer la force du rebond
+              this.isNotStand = false// Rebond proportionnel à la chute
+              this.body.vel.y = -reboundForce
+              me.audio.stop('jump')
+              me.audio.play('jump', false)
+            })
+            return true
+          }
+        }
         // Simulate a platform object
-        console.log('pla',other.type)
         if (other.type === 'platform') {
           if (
             this.body.falling &&
@@ -149,24 +172,24 @@ export class Player extends me.Entity {
             // The velocity is reasonably fast enough to have penetrated to the overlap depth
             ~~this.body.vel.y >= ~~response.overlapV.y
           ) {
-         
             // Disable collision on the x axis
-            this.body.vel.x = 0;
+            this.body.vel.x = 0
             response.overlapV.x = 0
             // Respond to the platform (it is solid)
             return true
           }
+
+
           // Do not respond to the platform (pass through)
           return false
         }
 
         // Custom collision response for slopes
         else if (other.type === 'slope') {
-          console.log('slope')
           // Always adjust the collision response upward
           response.overlapV.y = Math.abs(response.overlap)
           response.overlapV.x = 0
-          this.body.vel.x = 0;
+          this.body.vel.x = 0
 
           // Respond to the slope (it is solid)
           return true
@@ -174,21 +197,20 @@ export class Player extends me.Entity {
         break
 
       case me.collision.types.NPC_OBJECT:
-        if (other.userName === "Kevin") {
+        if (other.userName === 'Kevin') {
           me.timer.setTimeout(() => {
             me.game.viewport.fadeIn('#000', 150, function () {
-        
               try {
-                game.level = 2;
-                me.level.load("dream");
-                me.game.viewport.fadeOut('#000', 150);
+                game.level = 2
+                me.level.load('dream')
+                me.game.viewport.fadeOut('#000', 150)
               } catch (e) {
-                console.error("Erreur lors du chargement du niveau :", e);
+                console.error('Erreur lors du chargement du niveau :', e)
               }
-            });
-          }, 500);
+            })
+          }, 500)
         }
-        
+
         return false
 
       case me.collision.types.ENEMY_OBJECT:

@@ -1,7 +1,6 @@
 import * as me from 'melonjs'
 import { Player } from '../entities/player'
-import UIContainer from '../entities/HUD'
-import {game} from '../game'
+import { game } from '../game'
 
 export class Dream extends me.Stage {
   /**
@@ -9,11 +8,9 @@ export class Dream extends me.Stage {
    */
   onResetEvent() {
     me.level.load('dream')
+    me.game.viewport.fadeOut('#000', 150);
     game.level = 2
-
     game.isKinematic = false
-
-    me.game.world.addChild(new Player(50, 950), 1)
-
+    me.game.world.addChild(new Player(50, 0), 1)
   }
 }
